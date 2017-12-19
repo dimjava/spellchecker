@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-
+from mmh3 import hash as mhash
 from soundex import soundex
 import cPickle as pickle
 
@@ -31,13 +31,13 @@ if __name__ == '__main__':
 			if word == '':
 				continue
 
-			total_dict.add(word)
+			total_dict.add(mhash(word))
 
 			if len(vals) == 2:
 				if word in frequences:
-					frequences[word] += 1
+					frequences[mhash(word)] += 1
 				else:
-					frequences[word] = 1
+					frequences[mhash(word)] = 1
 
 			sndx = soundex(word)
 			if sndx in sound_dict:
@@ -53,9 +53,9 @@ if __name__ == '__main__':
 				continue
 
 			if word in frequences:
-				frequences[word] += 1
+				frequences[mhash(word)] += 1
 			else:
-				frequences[word] = 1
+				frequences[mhash(word)] = 1
 
 		line = f.readline().strip()
 

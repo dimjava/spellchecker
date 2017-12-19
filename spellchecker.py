@@ -4,8 +4,9 @@ import cPickle as pickle
 import re
 from nltk.metrics import edit_distance
 from soundex import soundex
+from mmh3 import hash as mhash
 
-alpha = 2.0
+alpha = 2.5
 
 sound_dict = {}
 frequences = {}
@@ -31,25 +32,25 @@ if __name__ == '__main__':
 		word_probs = []
 		for word in words:
 			word = word.strip()
-			# if word in total_dict:
-			# 	result.append(word)
-			# 	continue
+			if mhash(word) in total_dict:
+				result.append(word)
+				continue
 
 			mmax = -1
 			mfix = word
 			sndx = soundex(word)
 
 			p_orig = 1.0
-			if word in frequences:
-				p_orig = frequences[word]
+			if mhash(word) in frequences:
+				p_orig = frequences[mhash(word)]
 
 			# print(sndx)
 			# print(sndx in sound_dict)
 			if sndx in sound_dict:
 				# print(', '.join(sound_dict[sndx]))
-				
+
 				for fix in sound_dict[sndx]:
-					prob = alpha ** (-edit_distance(fix, word)) * frequences[fix] / p_orig
+					prob = alpha ** (-edit_distance(fix, word)) * frequences[mhash(fix)] / p_orig
 					if prob > mmax:
 						mmax = prob
 						mfix = fix
