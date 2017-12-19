@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
 		query = query.strip()
 		words = re.split(' |\.|\,', query)
-
+		words = filter(lambda x: x != '', words)
 		result = []
 		word_probs = []
 		for word in words:
