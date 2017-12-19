@@ -2,7 +2,7 @@
 
 import re
 from mmh3 import hash as mhash
-from soundex import soundex
+from soundex import soundex, is_ascii
 import cPickle as pickle
 
 if __name__ == '__main__':
@@ -15,6 +15,8 @@ if __name__ == '__main__':
 	total_dict = set()
 
 	line = f.readline().strip().lower()
+	if not is_ascii(line):
+		line = line.decode('utf-8').lower().encode('utf-8')
 
 	cnt = 0
 	while line:
@@ -79,6 +81,8 @@ if __name__ == '__main__':
 				frequences[mhash(word)] = 1
 
 		line = f.readline().strip().lower()
+		if not is_ascii(line):
+			line = line.decode('utf-8').lower().encode('utf-8')
 
 	with open('souds.bin', 'wb') as sounds:
 		pickle.dump(sound_dict, sounds)

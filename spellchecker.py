@@ -3,7 +3,7 @@
 import cPickle as pickle
 import re
 from nltk.metrics import edit_distance
-from soundex import soundex
+from soundex import soundex, is_ascii
 from mmh3 import hash as mhash
 
 alpha = 2.5
@@ -26,6 +26,9 @@ if __name__ == '__main__':
 		# print('QUERY: ' + query)
 
 		query = query.strip().lower()
+		if not is_ascii(query):
+			query = query.decode('utf-8').lower().encode('utf-8')		
+
 		words = re.split(' |\.|\,', query)
 		words = filter(lambda x: x != '', words)
 		result = []
