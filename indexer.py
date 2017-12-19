@@ -26,6 +26,7 @@ if __name__ == '__main__':
 
 		correct_words = re.split(' |\.|\,', correct)
 
+		prev = ''
 		for word in correct_words:
 			word = word.strip()
 			if word == '':
@@ -34,7 +35,7 @@ if __name__ == '__main__':
 			total_dict.add(mhash(word))
 
 			if len(vals) == 2:
-				if word in frequences:
+				if mhash(word) in frequences:
 					frequences[mhash(word)] += 1
 				else:
 					frequences[mhash(word)] = 1
@@ -52,7 +53,7 @@ if __name__ == '__main__':
 			if word == '':
 				continue
 
-			if word in frequences:
+			if mhash(word) in frequences:
 				frequences[mhash(word)] += 1
 			else:
 				frequences[mhash(word)] = 1
