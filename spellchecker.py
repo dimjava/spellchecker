@@ -25,7 +25,7 @@ if __name__ == '__main__':
 	while query:
 		# print('QUERY: ' + query)
 
-		query = query.strip()
+		query = query.strip().lower()
 		words = re.split(' |\.|\,', query)
 		words = filter(lambda x: x != '', words)
 		result = []
