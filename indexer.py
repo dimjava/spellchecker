@@ -14,7 +14,7 @@ if __name__ == '__main__':
 	frequences2 = {}
 	total_dict = set()
 
-	line = f.readline().strip()
+	line = f.readline().strip().lower()
 
 	cnt = 0
 	while line:
@@ -78,7 +78,7 @@ if __name__ == '__main__':
 			else:
 				frequences[mhash(word)] = 1
 
-		line = f.readline().strip()
+		line = f.readline().strip().lower()
 
 	with open('souds.bin', 'wb') as sounds:
 		pickle.dump(sound_dict, sounds)
