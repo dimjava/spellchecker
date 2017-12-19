@@ -10,6 +10,8 @@ if __name__ == '__main__':
 
 	sound_dict = {}
 	frequences = {}
+	# frequences of couples of words
+	frequences2 = {}
 	total_dict = set()
 
 	line = f.readline().strip()
@@ -34,6 +36,14 @@ if __name__ == '__main__':
 
 			total_dict.add(mhash(word))
 
+			if prev != '':
+				key = mhash('&'.join([prev, word]))
+				if key in frequences2:
+					frequences2[key] += 1
+				else:
+					frequences2[key] = 1
+			prev = word
+
 			if len(vals) == 2:
 				if mhash(word) in frequences:
 					frequences[mhash(word)] += 1
@@ -48,10 +58,20 @@ if __name__ == '__main__':
 
 		mistake_words = re.split(' |\.|\,', query)
 
+
+		prev = ''
 		for word in mistake_words:
 			word = word.strip()
 			if word == '':
 				continue
+
+			if prev != '':
+				key = mhash('&'.join([prev, word]))
+				if key in frequences2:
+					frequences2[key] += 1
+				else:
+					frequences2[key] = 1
+			prev = word
 
 			if mhash(word) in frequences:
 				frequences[mhash(word)] += 1
@@ -64,6 +84,8 @@ if __name__ == '__main__':
 		pickle.dump(sound_dict, sounds)
 	with open('freqs.bin', 'wb') as freqs:
 		pickle.dump(frequences, freqs)
+	with open('freqs2.bin', 'wb') as freqs2:
+		pickle.dump(frequences2, freqs2)
 	with open('dict.bin', 'wb') as total:
 		pickle.dump(total_dict, total)
 

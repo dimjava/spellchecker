@@ -38,7 +38,10 @@ def soundex_ru(word):
         idx = cfg['indexes'].find(word[i])
 
         if idx != -1:
-            result += cfg['consonants'][idx]
+            ch = cfg['consonants'][idx]
+            if i > 0 and result[-1] == ch:
+                continue
+            result += ch
         else:
             result += word[i]
 
