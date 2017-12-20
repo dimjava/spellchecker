@@ -49,21 +49,30 @@ def soundex_ru(word):
 
 def soundex_en(word):
     if len(word) == 0:
-        return "0000"
+        return '0000'
 
     cfg = soundconfig['en']
     word = word.lower()
-    snd_arr = [word[0], 0, 0, 0]
+    snd_arr = [word[0]]
     
-    word = word[1:]    
-    word = re.sub('[%s]' % ''.join(cfg["vowels"]), '', word)
-    i=1
+    word = word[1:] 
+    word = re.sub('[%s]' % ''.join(cfg["vowels"]), '0', word)
+    print('arr', snd_arr)
+    print(word)
+
     for c in word:
-        if c in cfg["codes"]:
-            char_code = cfg["codes"][c]
-            if snd_arr[i-1] != char_code:
-                snd_arr[i] = char_code
-                i += 1
-            if i == 4:
-                break
+        if c in cfg['codes']:
+            char_code = cfg['codes'][c]
+            if snd_arr[-1] == char_code:
+                continue
+            else:
+                snd_arr.append(char_code)
+        else:
+            snd_arr.append(c)
+
+    snd_arr = filter(lambda x: x != '0', snd_arr)
+
+    while len(snd_arr) < 4:
+        snd_arr.append('0')
+
     return ''.join(map(lambda x: str(x), snd_arr))
