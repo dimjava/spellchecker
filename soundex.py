@@ -57,8 +57,6 @@ def soundex_en(word):
     
     word = word[1:] 
     word = re.sub('[%s]' % ''.join(cfg["vowels"]), '0', word)
-    print('arr', snd_arr)
-    print(word)
 
     for c in word:
         if c in cfg['codes']:
